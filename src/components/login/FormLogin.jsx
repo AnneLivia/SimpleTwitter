@@ -6,12 +6,23 @@ import CustomButton from './Button';
 const FormLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [username, setUsername] = useState('');
   return (
     <Form>
       <Row className="justify-content-center">
         <Col md={7} xs={12} className="mb-4">
-          <FloatingLabel controlId="floatingInput" label="Email address">
+          <FloatingLabel controlId="floatingUsername" label="Username">
+            <Form.Control
+              type="text"
+              value={username}
+              placeholder="username"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </FloatingLabel>
+        </Col>
+        <Col md={7} xs={12} className="mb-4">
+          <FloatingLabel controlId="floatingEmail" label="Email address">
             <Form.Control
               type="email"
               value={email}
@@ -38,7 +49,7 @@ const FormLogin = () => {
             <Col md={6} xs={6} className="d-grid">
               <CustomButton
                 className="me-4"
-                text="login"
+                text="Login"
                 email={email}
                 password={password}
                 setEmail={setEmail}
@@ -47,7 +58,7 @@ const FormLogin = () => {
             </Col>
             <Col md={6} xs={6} className="d-grid">
               <CustomButton
-                text="signup"
+                text="SignUp"
                 email={email}
                 password={password}
                 setEmail={setEmail}

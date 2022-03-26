@@ -18,7 +18,7 @@ const CustomButton = ({ text, email, password, setEmail, setPassword }) => {
 
   return (
     // if text is login = load login function
-    <Button size="lg" onClick={text === 'login' ? loginUser : signUpUser}>
+    <Button size="lg" onClick={text === 'Login' ? loginUser : signUpUser}>
       {text}
     </Button>
   );
