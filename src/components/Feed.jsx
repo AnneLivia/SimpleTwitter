@@ -11,7 +11,7 @@ const styles = {
   },
 };
 
-const Feed = ({ img, tweets, setTweets }) => {
+const Feed = ({ tweets, setTweets }) => {
   return (
     <Card border="primary">
       <Card.Header style={styles.CardHeader}>
@@ -21,18 +21,12 @@ const Feed = ({ img, tweets, setTweets }) => {
       <Card.Body>
         {
           // map with callback
-          tweets.map((text, index) => {
+          tweets.map((tweet, index) => {
             return (
               <Row scroll={true} key={index} className="p-3 border-bottom mb-4">
                 <Col md={11}>
-                  {img && (
-                    <Card.Img
-                      variant="top"
-                      src="holder.js/100px180?text=Image cap"
-                    />
-                  )}
                   <Card.Text>
-                    <Tweet text={text} />
+                    <Tweet tweet={tweet} />
                   </Card.Text>
                 </Col>
                 <Col className="ms-4">

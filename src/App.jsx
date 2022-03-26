@@ -1,18 +1,12 @@
-import Tweetar from './components/Tweetar';
-import Feed from './components/Feed';
-import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
+import React from 'react';
+import Login from './pages/Login';
+import MyFeed from './pages/MyFeed';
 
 function App() {
-  const [tweets, setTweets] = useState([]);
-
   return (
-    // lifting state up:
-    // In React, sharing state is accomplished by moving it up to the closest common ancestor of the components that need it.
-    <Container className="mt-4">
-      <Feed tweets={tweets} setTweets={setTweets} />
-      <Tweetar setTweets={setTweets} />
-    </Container>
+    <>
+      <Login />
+    </>
   );
 }
 

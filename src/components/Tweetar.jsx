@@ -13,7 +13,10 @@ const styles = {
 };
 
 const Tweetar = ({ setTweets }) => {
-  const [tweet, setTweet] = useState('');
+  const [tweet, setTweet] = useState({
+    text: '',
+    data: '',
+  });
 
   return (
     <>
@@ -23,20 +26,26 @@ const Tweetar = ({ setTweets }) => {
           maxLength={280}
           as="textarea"
           placeholder="What are you feeling?"
-          onChange={(event) => setTweet(event.target.value)}
-          value={tweet}
+          onChange={(event) =>
+            setTweet({
+              text: event.target.value,
+              data: new Date().toLocaleString(),
+            })
+          }
+          value={tweet.text}
         />
         <InputGroup.Text
           className={`bg-white ${
-            tweet.length > 270
+            tweet.text.length > 270
               ? 'text-danger'
-              : tweet.length > 140
+              : tweet.text.length > 140
               ? 'text-warning'
               : 'text-dark'
           }`}
         >
-          {tweet.length}
+          {tweet.text.length}
         </InputGroup.Text>
+
         <Button
           onClick={() => {
             // to go to the top, when a new tweet is added
@@ -47,7 +56,7 @@ const Tweetar = ({ setTweets }) => {
               return [tweet, ...preTweets];
             });
 
-            setTweet('');
+            setTweet({ text: '', date: '' });
           }}
           variant="outline-primary"
         >
