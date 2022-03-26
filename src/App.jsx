@@ -1,13 +1,8 @@
 import React from 'react';
-import Login from './pages/Login';
-import MyFeed from './pages/MyFeed';
+import AppRouter from './Routes';
 
 function App() {
-  return (
-    <>
-      <Login />
-    </>
-  );
+  return <AppRouter />;
 }
 
 export default App;
