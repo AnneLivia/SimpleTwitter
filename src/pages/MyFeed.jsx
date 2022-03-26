@@ -13,6 +13,7 @@ const MyFeed = () => {
 
   const loggedUser = sessionStorage.getItem('loggedUser');
 
+  // if there's a logged user, then, render feed page.
   return loggedUser ? (
     // lifting state up:
     // In React, sharing state is accomplished by moving it up to the closest common ancestor of the components that need it.
@@ -22,6 +23,7 @@ const MyFeed = () => {
       <Tweetar setTweets={setTweets} />
     </Container>
   ) : (
+    // otherwise, using Navigate component of react-router-dom to redirect to login.
     <Navigate to="/" />
   );
 };
