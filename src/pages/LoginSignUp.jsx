@@ -6,6 +6,8 @@ const LoginSignUp = () => {
   // execute once when render this page
   useEffect(() => {
     console.log('hshisd');
+    // erase all logged user info, either because this is the first entry
+    // or because the user clicked on logout
     sessionStorage.clear();
   }, []);
 
