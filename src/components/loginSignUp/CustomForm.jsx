@@ -28,6 +28,10 @@ const CustomForm = () => {
     if (found) {
       // checking password
       if (found.password === password) {
+        // using sessionStorage to store the user information, it is going to be erased only
+        // when user close browser.
+        sessionStorage.setItem('loggedUser', JSON.stringify({ email }));
+
         return navigate('/myFeed');
       }
 
