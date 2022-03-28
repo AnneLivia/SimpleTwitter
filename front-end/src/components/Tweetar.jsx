@@ -16,7 +16,6 @@ const Tweetar = ({ setTweets, token }) => {
   const [tweet, setTweet] = useState({
     text: '',
     date: '',
-    id: '',
   });
 
   const postTweetOnDB = async () => {
@@ -33,10 +32,19 @@ const Tweetar = ({ setTweets, token }) => {
 
     // Creating a callback, that get all data from this state, and append it with the new tweet
     setTweets((preTweets) => {
-      return [{ ...tweet, id: data.tweet._id }, ...preTweets];
+      return [
+        {
+          ...tweet,
+          id: data.tweet._id,
+          name: data.tweet.name,
+          email: data.tweet.email,
+        },
+        ...preTweets,
+      ];
     });
 
-    // console.log({ ...tweet, id: data.tweet._id });
+    // console.log(data.tweet);
+    // console.log({ ...tweet, id: data.tweet._id, name: data.tweet.name });
   };
 
   return (

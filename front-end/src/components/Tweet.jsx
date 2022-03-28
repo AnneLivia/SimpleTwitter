@@ -5,6 +5,7 @@ const Tweet = ({ tweet }) => {
     <>
       <strong>{tweet.text}</strong>
       <br />
+      <small>{tweet.name} - </small>
       <small className="">{tweet.date}</small>
     </>
   );

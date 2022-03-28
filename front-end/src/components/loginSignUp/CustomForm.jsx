@@ -34,7 +34,6 @@ const CustomForm = () => {
         password,
       }),
     });
-    console.log('here');
     const data = await response.json();
 
     if (response.status === 404 || response.status === 401) {

@@ -10,7 +10,7 @@ const Menu = ({ activeKey }) => {
       <p className="text-center text-primary">{user.email}</p>
       <Nav fill variant="tabs" activeKey={activeKey}>
         <Nav.Item>
-          <Nav.Link href="#">All Feed</Nav.Link>
+          <Nav.Link href="/allFeed">All Feed</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link href="/myFeed">My Feed</Nav.Link>

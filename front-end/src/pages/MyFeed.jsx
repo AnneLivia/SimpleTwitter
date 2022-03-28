@@ -7,7 +7,8 @@ import { Navigate } from 'react-router-dom';
 
 // need to load all tweets from current user
 async function fetchTweets(token) {
-  const response = await fetch('http://localhost:4000/api/tweets', {
+  // using query porams to determine if I want to show all tweets from all users, or just the logged user
+  const response = await fetch('http://localhost:4000/api/tweets?all=false', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -18,42 +19,54 @@ async function fetchTweets(token) {
   return await response.json();
 }
 
-const loggedUser = JSON.parse(sessionStorage.getItem('loggedUser'));
-
 const MyFeed = () => {
   const [tweets, setTweets] = useState([]);
 
   // execute always when tweets update
   // if user is not logged,then return to login
   useEffect(() => {
+    const loggedUser = JSON.parse(sessionStorage.getItem('loggedUser'));
+
     async function execFetch() {
       const resp = await fetchTweets(loggedUser.token);
-      const newTweets = resp.tweets.map(({ text, date, _id }) => {
+      const newTweets = resp.tweets.map((tweet) => {
         return {
-          text,
-          date,
-          id: _id,
+          text: tweet.text,
+          date: tweet.date,
+          id: tweet._id,
+          name: tweet.user.name,
+          email: tweet.user.email,
         };
       });
 
+      // console.log(newTweets);
       setTweets(newTweets);
     }
 
     execFetch();
   }, []);
 
+  const loggedUser = JSON.parse(sessionStorage.getItem('loggedUser'));
+
+  // if user is not logged, using Navigate component of react-router-dom, redirect to login.
+  if (!loggedUser) {
+    return <Navigate to="/" />;
+  }
+
   // if there's a logged user, then, render feed page.
-  return loggedUser ? (
+  return (
     // lifting state up:
     // In React, sharing state is accomplished by moving it up to the closest common ancestor of the components that need it.
     <Container className="mt-4">
       <Menu activeKey="/myFeed" />
-      <Feed tweets={tweets} setTweets={setTweets} />
+      <Feed
+        tweets={tweets}
+        setTweets={setTweets}
+        token={loggedUser.token}
+        userLoggedEmail={loggedUser.email}
+      />
       <Tweetar setTweets={setTweets} token={loggedUser.token} />
     </Container>
-  ) : (
-    // otherwise, using Navigate component of react-router-dom to redirect to login.
-    <Navigate to="/" />
   );
 };
 
