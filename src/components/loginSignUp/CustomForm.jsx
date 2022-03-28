@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, FloatingLabel, Row, Col, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 // d-grid = display grid
 const CustomForm = () => {
   // This is going to be replaced by api
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [signUp, setSignUp] = useState(false);
   const [error, setError] = useState({ text: '', status: false });
 
-  useEffect(() => {
+  /*
+    useEffect(() => {
     console.log(users);
-  }, [users]);
+  }, [users]);*/
 
   // useNavigate is a hook that allows to navigate through routes programmatically
   // useNavigation() returns the navigation prop of the screen it's inside.
@@ -22,34 +23,57 @@ const CustomForm = () => {
   // this hook helps to go to the specific URL, forward or backward (navigate.back()) pages
   const navigate = useNavigate();
 
-  const loginUser = () => {
-    // Checking if email exists
-    const found = users.find((user) => user.email === email);
-    if (found) {
-      // checking password
-      if (found.password === password) {
-        // using sessionStorage to store the user information, it is going to be erased only
-        // when user close browser.
-        sessionStorage.setItem('loggedUser', JSON.stringify({ email }));
+  const loginUser = async () => {
+    const response = await fetch('http://localhost:4000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    console.log('here');
+    const data = await response.json();
 
-        return navigate('/myFeed');
-      }
-
-      return setError({ text: 'Wrong password', status: true });
+    if (response.status === 404 || response.status === 401) {
+      return setError({ text: data.message, status: true });
     }
-    setError({ text: 'Email does not exists', status: true });
+
+    // using sessionStorage to store the user information, it is going to be erased only
+    // when user close browser.
+    sessionStorage.setItem(
+      'loggedUser',
+      JSON.stringify({ email, token: data.token })
+    );
+
     setEmail('');
     setPassword('');
+
+    return navigate('/myFeed');
   };
 
-  const signUpUser = () => {
-    const found = users.find((user) => user.email === email);
+  const signUpUser = async () => {
+    // const found = users.find((user) => user.email === email);
+    const response = await fetch('http://localhost:4000/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        name,
+      }),
+    });
 
-    if (found) {
-      return setError({ text: 'Email already exists', status: true });
+    const data = await response.json();
+    if (response.status === 404 || response.status === 400) {
+      return setError({ text: data.message, status: true });
     }
 
-    setUsers([...users, { email, name, password }]);
+    //setUsers([...users, { email, name, password }]);
 
     setName('');
     setEmail('');
@@ -133,7 +157,7 @@ const CustomForm = () => {
                   }
                 }
               >
-                SignUp
+                Sign Up
               </Button>
             </Col>
           </Row>

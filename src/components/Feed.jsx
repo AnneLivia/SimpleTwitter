@@ -21,9 +21,13 @@ const Feed = ({ tweets, setTweets }) => {
       <Card.Body>
         {
           // map with callback
-          tweets.map((tweet, index) => {
+          tweets.map((tweet) => {
             return (
-              <Row scroll={true} key={index} className="p-3 border-bottom mb-4">
+              <Row
+                scroll={true}
+                key={tweet.id}
+                className="p-3 border-bottom mb-4"
+              >
                 <Col md={11}>
                   <Card.Text>
                     <Tweet tweet={tweet} />
@@ -31,15 +35,14 @@ const Feed = ({ tweets, setTweets }) => {
                 </Col>
                 <Col className="ms-4">
                   <Button
-                    id={index}
+                    id={tweet.id}
                     onClick={(event) =>
                       setTweets(
                         // overwriting data with all of the tweets apart from deleted
-                        tweets.filter(
-                          (value, index) => index !== parseInt(event.target.id)
-                        )
+                        tweets.filter((value) => value.id !== event.target.id)
                       )
                     }
+                    // console.log(event.target.id);
                     variant="danger"
                   >
                     X

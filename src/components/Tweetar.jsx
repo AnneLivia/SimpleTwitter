@@ -12,11 +12,32 @@ const styles = {
   },
 };
 
-const Tweetar = ({ setTweets }) => {
+const Tweetar = ({ setTweets, token }) => {
   const [tweet, setTweet] = useState({
     text: '',
-    data: '',
+    date: '',
+    id: '',
   });
+
+  const postTweetOnDB = async () => {
+    const response = await fetch('http://localhost:4000/api/tweets', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(tweet),
+    });
+
+    const data = await response.json();
+
+    // Creating a callback, that get all data from this state, and append it with the new tweet
+    setTweets((preTweets) => {
+      return [{ ...tweet, id: data.tweet._id }, ...preTweets];
+    });
+
+    // console.log({ ...tweet, id: data.tweet._id });
+  };
 
   return (
     <>
@@ -29,7 +50,7 @@ const Tweetar = ({ setTweets }) => {
           onChange={(event) =>
             setTweet({
               text: event.target.value,
-              data: new Date().toLocaleString(),
+              date: new Date().toLocaleString(),
             })
           }
           value={tweet.text}
@@ -51,10 +72,7 @@ const Tweetar = ({ setTweets }) => {
             // to go to the top, when a new tweet is added
             window.scrollTo(0, 0);
 
-            // Creating a callback, that get all data from this state, and append it with the new tweet
-            setTweets((preTweets) => {
-              return [tweet, ...preTweets];
-            });
+            postTweetOnDB();
 
             setTweet({ text: '', date: '' });
           }}
