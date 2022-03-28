@@ -1,6 +1,6 @@
 # SIMPLE TWITTER
 
-A simple twitter based app developed while I'm studying React.Js. 
+A simple Twitter based app developed to practice React.js and Node.js concepts. 
 
 ## Technologies:
     - Front-end:
