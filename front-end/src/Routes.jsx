@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AllFeed from './pages/AllFeed';
-import LoginSignUp from './pages/LoginSignUp';
-import MyFeed from './pages/MyFeed';
+import AllFeed from './pages/Feed/AllFeed';
+import LoginSignUp from './pages/Login/LoginSignUp';
+import MyFeed from './pages/Feed/MyFeed';
 
 const AppRouter = () => {
   return (
